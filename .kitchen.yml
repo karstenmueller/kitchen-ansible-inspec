@@ -1,0 +1,25 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  hosts: webservers
+  name: ansible_playbook
+  roles_path: roles
+  require_ansible_repo: true
+  ansible_verbose: true
+  ansible_version: latest
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-18.04
+
+suites:
+  - name: default
+    # verifier:
+    #   inspec_tests:
+    #     - https://github.com/dev-sec/linux-baseline

@@ -1,0 +1,27 @@
+---
+- name: Update apt cache
+  apt: update_cache=true
+- name: Install necessary packages
+  apt:
+    name: apache2
+    state: latest
+- name: Configure Hello World virtual host.
+  copy: src=helloworldconf dest=/etc/apache2/sites-available/helloworld.conf mode=0640
+- name: Create the helloworld directory
+  file:
+    path: /var/www/helloworld
+    state: directory
+    mode: 0755
+- name: Deploy the Hello World website
+  copy: src=index.html dest=/var/www/helloworld/
+- name: Deactivate the default virtualhost
+  command: a2dissite 000-default
+- name: Activate the virtualhost
+  command: a2ensite helloworld
+  notify:
+    - restart apache
+- name: Fix SSL in Apache
+  replace: dest=/etc/apache2/mods-available/ssl.conf
+    regexp='^SSLProtocol.*$'
+    replace='SSLProtocol -all +TLSv1.2'
+  notify: restart apache2
