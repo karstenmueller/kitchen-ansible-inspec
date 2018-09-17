@@ -17,11 +17,16 @@ steps:
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
 
-- script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
-  displayName: 'Install ChefDK'
-
 - script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
   displayName: 'Install inspec'
+
+- script: |
+    sudo apt-get update
+    sudo apt-get -y install software-properties-common
+    sudo apt-add-repository ppa:ansible/ansible
+    sudo apt-get update
+    sudo apt-get -y install ansible
+  displayName: 'Install ansible'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
