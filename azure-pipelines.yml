@@ -12,23 +12,5 @@ steps:
     versionSpec: '>= 2.4'
     addToPath: true
 
-- script: |
-    gem install bundler
-    bundle install --retry=3 --jobs=4
-  displayName: 'bundle install'
-
-- script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
-  displayName: 'Install inspec'
-
-- script: |
-    sudo apt-get update
-    sudo apt-get -y install software-properties-common
-    sudo apt-add-repository ppa:ansible/ansible
-    sudo apt-get update
-    sudo apt-get -y install ansible
-  displayName: 'Install ansible'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- script: bash setup.sh
+  displayName: 'setup environment'
