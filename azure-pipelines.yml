@@ -7,13 +7,21 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
-  displayName: 'Install ChefDK'
+- task: UseRubyVersion@0
+  inputs:
+    versionSpec: '>= 2.4'
+    addToPath: true
 
 - script: |
     gem install bundler
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
+
+- script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
+  displayName: 'Install ChefDK'
+
+- script: curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+  displayName: 'Install inspec'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
